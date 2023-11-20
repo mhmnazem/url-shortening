@@ -5,36 +5,37 @@ This URL shortener is a simple yet powerful service built with Spring Boot. It a
 ### Getting Started
 These instructions will help you set up and run the application on your local machine for development and testing purposes.
 
-### **Technologies**
+### **Technologies Used**
 * Spring Boot 3.1.5
 * Kotlin 1.8.22
 * Java 17
 * Maven
 * SpringDoc OpenAPI (Web MVC UI and Kotlin)
 * H2 as in memory Database
-* Junit
-* Mockito
+* Junit & Mockito for Testing
+
+### Getting Started
+#### Prerequisites
+* Java 17
+* Maven
+* Kotlin
 
 
-### **Installing**
-#### clone the repository:<br>
-* git clone https://github.com/mhmnazem/url-shortening.git
+### Installation
+* Clone the repository:
+    * git clone https://github.com/mhmnazem/url-shortening.git
 
 
 ### Building the Application
 To build the application, follow these steps:
+* cd url-shortening
+* mvn clean install
+* mvn spring-boot:run
 
-* Ensure you have Maven, Kotlin and Java 17 installed.
-* Clone the repository to your local machine.
-* Navigate to the project directory and run mvn clean install to build the project.
-* To start the application, run mvn spring-boot:run.
-
-### Run
+### Accessing Application Components
 The application runs on port 8080 by default. You can access various components of the application as follows:
-
 * Swagger UI:
   * For API documentation and testing, visit http://localhost:8080/swagger-ui.html. This interface provides a user-friendly way to explore and test the API endpoints.
-
 * H2 Database Console:
   * The H2 console for database management is available at http://localhost:8080/h2-console. This console is useful for direct interaction with the in-memory database.
 
@@ -50,20 +51,32 @@ The application runs on port 8080 by default. You can access various components 
   * Checks for an existing hash code for the same URL.
     * If it exists, returns the existing hash code.
     *  If not, generates a new hash code.
-#### Retrieving URL Associated with a Hash Code
+#### Retrieving URL Associated With a Hash Code
 * Input Processing: The service receives a hash code as input.
     * URL Retrieval:
       * If a URL is associated with the provided hash code, it is returned.
       * If no URL is associated, appropriate exceptions are thrown.
       returns HTTP status code 404 (Not Found) when the URL is not found.
   
-### What is next! 
-In its current phase, the project serves as a minimum viable product (MVP) and operates effectively using an H2 in-memory database. However, for a production-ready solution, especially considering global scalability and deployment across multiple environments, several enhancements are suggested:
+### Scalability And Maintenance
 
-* Transition to a Persistent Database: Implementing a persistent database like PostgreSQL or MySQL for data durability and scalability.
-* Mapping Shortened URLs to IDs: Optimizing URL lookup by mapping shortened URLs to IDs and vice versa.
-* Hash code customised generation: Customising how the hash code can be generated based on different requirements in order to have a robust code.
-* Dockerization: Containerizing the application with Docker for easier deployment and environment consistency.
-* Implement Caching: Introducing caching mechanisms to reduce database query load and improve response times.
-* Monitoring Tools: Utilizing tools like Prometheus and Grafana for real-time monitoring and alerting.
-* Enhanced Security: Implementing security measures, including input validation, authentication, and authorization.
+This application contains two APIs first to generate identifier for the specific URL and second for retrieving URL from existing Identifier.
+After globalisation, the second API is going to be called more often because it is going to be mapped to the Shortened URL which is shared by users for their audience.
+
+* Scalability and maintenance are recommended by:
+  * Optimized for high-traffic scenarios through performance tuning.
+  * Utilizes caching and load balancing to manage increased loads efficiently.
+  * Planned Upgrades:
+    * Integration of a robust, persistent database like PostgreSQL.
+    * Implementation of a Content Delivery Network (CDN) for faster, global content delivery.
+    * Strengthening security measures to safeguard data and services.
+
+### Next Steps!
+
+* Migrating to a persistent database like PostgreSQL.
+* Implementing advanced caching strategies.
+* Dockerizing the application for easy deployment.
+* Establish a CDN to minimize latency and improve user experience worldwide.
+* Implementing robust security features.
+* Implement detailed monitoring and logging to ensure system health and facilitate quick issue resolution.
+* Develop cost-efficient strategies for scaling resources in line with demand.

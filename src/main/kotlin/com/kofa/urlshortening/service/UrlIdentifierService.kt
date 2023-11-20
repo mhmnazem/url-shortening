@@ -31,7 +31,7 @@ class UrlIdentifierService (private val urlIdentifierRepository: UrlIdentifierRe
      * and storing the information is completed atomically.
      */
     @Transactional
-    fun generateIdentifier(originalUrl:String):Int {
+    fun generateIdentifier(originalUrl:String):String {
          if (!isUrlValid(originalUrl)) {
             throw InvalidUrlException("The url provided is invalid")
         }
@@ -39,12 +39,13 @@ class UrlIdentifierService (private val urlIdentifierRepository: UrlIdentifierRe
             // Return the Hashed URL if it already exists
 
             if (findByOriginalUrl != null)
-                return findByOriginalUrl.identifier
+                return findByOriginalUrl.identifier.toString()
 
             val generateIdentifier = originalUrl.hashCode()
             val entity = UrlIdentifierEntity(originalUrl = originalUrl, identifier = generateIdentifier)
             urlIdentifierRepository.save(entity)
-            return generateIdentifier
+            return generateIdentifier.toString()
+
     }
 
     /**

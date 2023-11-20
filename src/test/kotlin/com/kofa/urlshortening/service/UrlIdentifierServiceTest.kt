@@ -1,5 +1,6 @@
 package com.kofa.urlshortening.service
 
+import com.kofa.urlshortening.config.globalExceptionHandler.InvalidUrlException
 import com.kofa.urlshortening.config.globalExceptionHandler.NotFoundException
 import com.kofa.urlshortening.entity.UrlIdentifierEntity
 import com.kofa.urlshortening.repository.UrlIdentifierRepository
@@ -44,7 +45,7 @@ class UrlIdentifierServiceTest {
 
         val result = urlIdentifierService.generateIdentifier(originalUrl)
 
-        assertEquals(existingIdentifier, result)
+        assertEquals(existingIdentifier.toString(), result)
     }
 
     @Test
@@ -58,8 +59,20 @@ class UrlIdentifierServiceTest {
 
         val result = urlIdentifierService.generateIdentifier(originalUrl)
 
-        assertEquals(newIdentifier, result)
+        assertEquals(newIdentifier.toString(), result)
         verify(urlRepository, times(1)).save(any())
+    }
+
+
+    @Test
+    fun `should throw InvalidUrlException for invalid URL`() {
+        val invalidUrl = "invalidUrl"
+
+        val exception = assertThrows<InvalidUrlException> {
+            urlIdentifierService.generateIdentifier(invalidUrl)
+        }
+
+        assertEquals("The url provided is invalid", exception.message)
     }
 
     @Test
@@ -87,5 +100,6 @@ class UrlIdentifierServiceTest {
         }
         assertEquals("Identifier not found", exception.message)
     }
+
 
 }

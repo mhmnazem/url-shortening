@@ -35,7 +35,7 @@ class UrlIdentifierEntity(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + originalUrl.hashCode()
-        result = 31 * result + identifier
+        result = 31 * result + identifier.hashCode()
         return result
     }
 }

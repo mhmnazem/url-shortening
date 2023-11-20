@@ -1,5 +1,6 @@
 package com.kofa.urlshortening.service
 
+import com.kofa.urlshortening.config.globalExceptionHandler.NotFoundException
 import com.kofa.urlshortening.entity.UrlIdentifierEntity
 import com.kofa.urlshortening.repository.UrlIdentifierRepository
 import jakarta.transaction.Transactional
@@ -49,8 +50,12 @@ class UrlIdentifierService (private val urlIdentifierRepository: UrlIdentifierRe
      *
      * @param identifier The unique identifier associated with a URL.
      * @return The original URL corresponding to the given identifier, or null if no URL is associated with this identifier.
+     * @throws NotFoundException if the identifier does not exist in the repository.
      */
     fun getOriginalUrlByIdentifier(identifier: Int): String? {
-        return urlIdentifierRepository.findByIdentifier(identifier)?.originalUrl
+        val urlEntity = urlIdentifierRepository.findByIdentifier(identifier)
+            ?: throw NotFoundException("There is no URL with this identifier $identifier")
+
+        return urlEntity.originalUrl
     }
 }

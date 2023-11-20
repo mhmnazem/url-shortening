@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*
  * @email Mohammad.nazem@gmail.com
  */
 @RestController
-@RequestMapping("/api/v0")
+@RequestMapping("/api/v1")
 class UrlIdentifierController(private val urlIdentifierService: UrlIdentifierService) : IUrlIdentifierController {
 
     @PostMapping("generateIdentifier")
     override fun generateIdentifier(url: String): ResponseEntity<String> {
-            val generatedIdentifier = urlIdentifierService.generateIdentifier(url).toString()
+            val generatedIdentifier = urlIdentifierService.generateIdentifier(url)
             return ResponseEntity.ok(generatedIdentifier)
     }
 

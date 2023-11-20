@@ -49,8 +49,8 @@ The application runs on port 8080 by default. You can access various components 
 * Hash Code Generation:
   *  The URL is mapped to a unique hash code using the JVM's default hashCode() function.
   * Checks for an existing hash code for the same URL.
-    * If it exists, returns the existing hash code.
-    *  If not, generates a new hash code.
+    * If it exists, return the existing hash code.
+    *  If not, generate a new hash code.
 #### Retrieving URL Associated With a Hash Code
 * Input Processing: The service receives a hash code as input.
     * URL Retrieval:
@@ -60,9 +60,8 @@ The application runs on port 8080 by default. You can access various components 
   
 ### Scalability And Maintenance
 
-This application contains two APIs first to generate identifier for the specific URL and second for retrieving URL from existing Identifier.
-After globalisation, the second API is going to be called more often because it is going to be mapped to the Shortened URL which is shared by users for their audience.
-
+This application contains two APIs first to generate an identifier for the specific URL and second for retrieving the URL from the existing Identifier.
+After globalization, the second API is going to be called more often because it is going to be mapped to the Shortened URL which is shared by users for their audience.
 * Scalability and maintenance are recommended by:
   * Optimized for high-traffic scenarios through performance tuning.
   * Utilizes caching and load balancing to manage increased loads efficiently.

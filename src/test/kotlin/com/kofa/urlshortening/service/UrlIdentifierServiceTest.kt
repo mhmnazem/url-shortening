@@ -11,7 +11,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.boot.test.context.SpringBootTest
-import kotlin.random.Random
 
 /**
  * @author mhmnazem
@@ -61,5 +60,28 @@ class UrlIdentifierServiceTest {
         verify(urlRepository, times(1)).save(any())
     }
 
+    @Test
+    fun `should return original URL for given identifier`() {
+        val identifier = 12345
+        val originalUrl = "https://www.example.com"
+        val entity = UrlIdentifierEntity(originalUrl = originalUrl, identifier = identifier)
+
+        `when`(urlRepository.findByIdentifier(identifier)).thenReturn(entity)
+
+        val result = urlIdentifierService.getOriginalUrlByIdentifier(identifier)
+
+        assertEquals(originalUrl, result)
+    }
+
+    @Test
+    fun `should return null if identifier does not exist`() {
+        val identifier = 67890
+
+        `when`(urlRepository.findByIdentifier(identifier)).thenReturn(null)
+
+        val result = urlIdentifierService.getOriginalUrlByIdentifier(identifier)
+
+        assertNull(result)
+    }
 
 }

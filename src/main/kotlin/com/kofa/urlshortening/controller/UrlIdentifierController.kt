@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RestController
  * @email Mohammad.nazem@gmail.com
  */
 @RestController
-@RequestMapping("/api/v1.0")
+@RequestMapping("/api/v0")
 class UrlIdentifierController(private val urlIdentifierService: UrlIdentifierService) : IUrlIdentifierController {
 
     @PostMapping("generateIdentifier")
     override fun generateIdentifier(url: String, checkValidation: Boolean): ResponseEntity<Int> {
+        //TODO implement validation for url
         return if (checkValidation) {
             ResponseEntity.badRequest().body(400)
         } else {
@@ -24,4 +25,11 @@ class UrlIdentifierController(private val urlIdentifierService: UrlIdentifierSer
             return ResponseEntity.ok(shortenedUrl)
         }
     }
+
+    override fun getOriginalUrl(identifier: Int): ResponseEntity<String> {
+        val originalUrl = urlIdentifierService.getOriginalUrlByIdentifier(identifier)
+        if (originalUrl != null) {
+            return ResponseEntity.ok(originalUrl)
+        }
+        return ResponseEntity.notFound().build()    }
 }

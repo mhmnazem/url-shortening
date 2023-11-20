@@ -1,7 +1,6 @@
 package com.kofa.urlshortening.controller
 
 import com.kofa.urlshortening.service.UrlIdentifierService
-import com.kofa.urlshortening.utils.isUrlValid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -15,20 +14,14 @@ import org.springframework.web.bind.annotation.*
 class UrlIdentifierController(private val urlIdentifierService: UrlIdentifierService) : IUrlIdentifierController {
 
     @PostMapping("generateIdentifier")
-    override fun generateIdentifier(url: String, checkValidation: Boolean): ResponseEntity<Int> {
-        return if (checkValidation && isUrlValid(url)) {
-            ResponseEntity.badRequest().body(400)
-        } else {
-            val generatedIdentifier = urlIdentifierService.generateIdentifier(url)
+    override fun generateIdentifier(url: String): ResponseEntity<String> {
+            val generatedIdentifier = urlIdentifierService.generateIdentifier(url).toString()
             return ResponseEntity.ok(generatedIdentifier)
-        }
     }
 
     @GetMapping("/getOriginalUrl/{identifier}")
     override fun getOriginalUrl(@PathVariable identifier: Int): ResponseEntity<String> {
         val originalUrl = urlIdentifierService.getOriginalUrlByIdentifier(identifier)
-        if (originalUrl != null) {
-            return ResponseEntity.ok(originalUrl)
-        }
-        return ResponseEntity.notFound().build()    }
+        return ResponseEntity.ok(originalUrl)
+    }
 }

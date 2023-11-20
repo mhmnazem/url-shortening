@@ -1,10 +1,12 @@
 package com.kofa.urlshortening.service
 
+import com.kofa.urlshortening.config.globalExceptionHandler.NotFoundException
 import com.kofa.urlshortening.entity.UrlIdentifierEntity
 import com.kofa.urlshortening.repository.UrlIdentifierRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
@@ -74,14 +76,16 @@ class UrlIdentifierServiceTest {
     }
 
     @Test
-    fun `should return null if identifier does not exist`() {
+    fun `should return exception if identifier does not exist`() {
         val identifier = 67890
 
-        `when`(urlRepository.findByIdentifier(identifier)).thenReturn(null)
+        `when`(urlRepository.findByIdentifier(identifier))
+            .thenThrow(NotFoundException("Identifier not found"))
 
-        val result = urlIdentifierService.getOriginalUrlByIdentifier(identifier)
-
-        assertNull(result)
+        val exception = assertThrows<NotFoundException> {
+            urlIdentifierService.getOriginalUrlByIdentifier(identifier)
+        }
+        assertEquals("Identifier not found", exception.message)
     }
 
 }

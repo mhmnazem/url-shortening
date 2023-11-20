@@ -1,4 +1,4 @@
-package config
+package com.kofa.urlshortening.config.swagger
 
 import org.springdoc.core.GroupedOpenApi
 import org.springframework.context.annotation.Bean
